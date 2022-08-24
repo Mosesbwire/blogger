@@ -9,6 +9,7 @@ const session = require('express-session')
 
 const authorRouter = require('./routes/authorRoute')
 const articleRouter = require('./routes/articleRoute')
+
 var app = express();
 
 require('./config/passport')(passport)
@@ -34,6 +35,7 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
+
 
 
 app.use('/author', authorRouter)
