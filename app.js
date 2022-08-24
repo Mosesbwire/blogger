@@ -3,11 +3,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const path = require('path')
 const dotenv = require('dotenv')
-const authorRouter = require('./routes/authorRoute')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const session = require('express-session')
 
+const authorRouter = require('./routes/authorRoute')
+const articleRouter = require('./routes/articleRoute')
 var app = express();
 
 require('./config/passport')(passport)
@@ -36,6 +37,7 @@ app.use(passport.session())
 
 
 app.use('/author', authorRouter)
+app.use('/article', articleRouter)
 
 
 

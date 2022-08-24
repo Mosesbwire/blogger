@@ -9,12 +9,12 @@ const {body, validationResult} = require('express-validator')
 
 const createAuthor = [
     body('firstname').trim().isLength({min:2, max:100}).escape()
-    .withMessage('First name must be specified')
-    .isAlphanumeric().withMessage('Name has non alphanumeric characters'),
+    .withMessage('First name must be specified'),
+    
 
     body('lastname').trim().isLength({min:2, max:100}).escape()
-    .withMessage('First name must be specified')
-    .isAlphanumeric().withMessage('Name has non alphanumeric characters'),
+    .withMessage('First name must be specified'),
+    
 
     body('email').isEmail().withMessage('Invalid email address'),
 
