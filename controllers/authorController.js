@@ -163,11 +163,24 @@ const changePassword = [
     }
 ]
 
+function uploadProfilePicture(req,res,file){
+    Author.findById(req.user.id, (err,author)=>{
+        author._id = req.user.id
+        author.profileImage = req.file.filename
+
+        author.save((err)=>{
+            if(err){ return next(err)}
+            res.status(200).json({message: 'Upload successful'})
+        })
+    })
+}
+
 module.exports = {
     createAuthor,
     getProfile,
     editProfile,
     login,
     logout,
-    changePassword
+    changePassword,
+    uploadProfilePicture
 }
