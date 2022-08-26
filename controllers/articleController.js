@@ -30,6 +30,14 @@ const create = [
 
 ]
 
+function index(req,res,next){
+    Article.find({}, (err,articles)=>{
+        if(err){ return next(err)}
+
+        res.status(200).json(articles)
+    })
+}
+
 function allArticles(req,res,next){
     Article.find({author: req.user.id}, function(err,articles){
         if(err){ return next(err)}
@@ -118,6 +126,7 @@ const editArticle = [
 ]
 
 module.exports = {
+    index,
     create,
     allArticles,
     getArticle,

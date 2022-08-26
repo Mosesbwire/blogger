@@ -8,11 +8,12 @@ const {create,
         getArticle,
         editArticle,
         allArticles,
-        deleteArticle
+        deleteArticle,
+        index
 
 } = require('../controllers/articleController')
 
-
+articleRouter.get('/index',index)
 articleRouter.post('/publish' ,ensureAuthenticated,create)
 articleRouter.get('/articles',ensureAuthenticated,allArticles)
 articleRouter.get('/:id', ensureAuthenticated,getArticle)
