@@ -5,6 +5,7 @@ const CommentSchema = new Schema({
     commenter: {type: Schema.Types.ObjectId, ref: 'Author'},
     comment: {type: String, required: true},
     date: {type: Date, default: Date.now()},
+    edited: {type: Boolean, default: false},
     replies: [{type: Schema.Types.ObjectId, ref: 'Comment'}]
 })
 
