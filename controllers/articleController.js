@@ -122,8 +122,20 @@ const editArticle = [
             })
         })
     }
-
 ]
+
+function addLike(req,res,next){
+    Article.findById(req.params.id, (err,article)=>{
+        if(err){ return next(err)}
+
+        article.likes = article.likes ++
+        article.save((err)=>{
+            if(err){ return next(err)}
+
+            res.status(200).json({likes: article.likes})
+        })
+    })
+}
 
 module.exports = {
     index,
@@ -131,5 +143,6 @@ module.exports = {
     allArticles,
     getArticle,
     deleteArticle,
-    editArticle
+    editArticle,
+    addLike
 }

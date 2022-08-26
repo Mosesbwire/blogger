@@ -4,7 +4,7 @@ const multer = require('multer')
 
 const ensureAuthenticated = require('../config/auth')
 
-const{create,
+const{
         login,
         logout,
         editProfile,

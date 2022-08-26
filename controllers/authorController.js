@@ -4,9 +4,6 @@ const {body, validationResult} = require('express-validator')
 
 
 
-/// fix how to use email instead of username in passport.js
-
-
 const createAuthor = [
     body('firstname').trim().isLength({min:2, max:100}).escape()
     .withMessage('First name must be specified'),
@@ -79,8 +76,11 @@ function logout(req,res,next){
 }
 
 function getProfile(req,res,next){
+
+    //return profile with url for profile pic...
     Author.findById(req.user.id,(err,author)=>{
         if(err) { return next(err)}
+        
 
         res.status(200).json(author)
     })

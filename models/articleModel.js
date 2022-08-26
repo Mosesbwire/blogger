@@ -8,7 +8,8 @@ const ArticleSchema = new Schema({
     body: {type: String, required: true},
     updated: {type: Boolean, default: false},
     updateDate: {type: Date},
-    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}]
+    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
+    likes: {type: Number, default: 0}
 })
 
 module.exports = mongoose.model('Article', ArticleSchema)

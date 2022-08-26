@@ -94,10 +94,27 @@ function deleteComment(req,res,next){
 }
 
 
+function addLike(req,res,next){
+    Comment.findById(req.params.id, (err,comment)=>{
+        if(err){ return next(err)}
+
+        let numOfLikes = comment.likes
+        numOfLikes += 1
+        comment.likes = numOfLikes
+        comment.save((err)=>{
+            if(err){ return next(err)}
+
+            res.status(200).json({likes: comment.likes})
+        })
+    })
+}
+
+
 module.exports = {
     create,
     getArticleComments, 
     replyToComment,
-    editComment
+    editComment,
+    addLike
 }
 

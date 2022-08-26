@@ -9,12 +9,14 @@ const {create,
         editArticle,
         allArticles,
         deleteArticle,
-        index
+        index,
+        addLike
 
 } = require('../controllers/articleController')
 
 articleRouter.get('/index',index)
 articleRouter.post('/publish' ,ensureAuthenticated,create)
+articleRouter.post('/like/:id' ,ensureAuthenticated,addLike)
 articleRouter.get('/articles',ensureAuthenticated,allArticles)
 articleRouter.get('/:id', ensureAuthenticated,getArticle)
 articleRouter.put('/:id',ensureAuthenticated,editArticle)
