@@ -175,6 +175,23 @@ function uploadProfilePicture(req,res,file){
     })
 }
 
+async function followUser(req,res,next){
+    try {
+        const user = await Author.findById(req.user.id)
+        const followUser = await Author.findById(req.params.id)
+        
+        await user.follow(followUser)
+        await followUser.gainFollower(user)
+
+        // send notification to user who just got followed
+
+        res.status(200).json({message: 'ok'})
+    } catch (error) {
+        next(error)
+        console.log(error)
+    }
+}
+
 module.exports = {
     createAuthor,
     getProfile,
@@ -182,5 +199,6 @@ module.exports = {
     login,
     logout,
     changePassword,
-    uploadProfilePicture
+    uploadProfilePicture,
+    followUser
 }

@@ -11,7 +11,8 @@ const{
         createAuthor,
         getProfile,
         changePassword,
-        uploadProfilePicture
+        uploadProfilePicture,
+        followUser
 } = require('../controllers/authorController')
 
 const multerStorage = multer.diskStorage({
@@ -48,6 +49,7 @@ authorRouter.put('/edit',ensureAuthenticated,editProfile)
 authorRouter.get('/view-profile',ensureAuthenticated,getProfile)
 authorRouter.put('/change-password', ensureAuthenticated,changePassword)
 authorRouter.post('/upload-profile-picture', ensureAuthenticated, upload.single('profile-pic'),uploadProfilePicture)
+authorRouter.post('/:id',ensureAuthenticated, followUser)
 
 
 module.exports = authorRouter
