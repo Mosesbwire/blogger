@@ -29,30 +29,60 @@ AuthorSchema.methods.validPassword = async function(password){
     return await bcrypt.compare(password, this.password)
 }
 
-AuthorSchema.methods.follow = async function(user){
-    this.following.push(user._id)
+AuthorSchema.methods.follow = async function(userId){
+    this.following.push(userId)
     this.following_count += 1
     this.save(err=>{
         if(err){ return new Error({message: 'Save failed'})}
 
-        return {
-            following: this.following_count,
-            user: user
-        }
+        return this.following_count
     })
-} 
+}
 
-AuthorSchema.methods.gainFollower = async function(follower){
+
+AuthorSchema.methods.unfollow = async function(userId){
+    let index = this.following.findIndex(element => element.toString() === userId.toString())
+    this.following.splice(index,1)
+    this.following_count -= 1
+    this.save(err =>{
+        if(err){ return new Error({error: 'Save failed'})}
+        return this.following_count
+    })
+}
+AuthorSchema.methods.loseFollower = async function(userId){
+    let index = this.followers.findIndex(element => element.toString() === userId.toString())
+    this.followers.splice(index,1)
+    this.followers_count -= 1
+    this.save(err =>{
+        if(err){ return new Error({error: 'Save failed'})}
+        return this.followers_count
+    })
+    
+}
+
+AuthorSchema.methods.gainFollower = async function(followerId){
    
-    this.followers.push(follower._id)
+    this.followers.push(followerId)
     this.followers_count += 1
     this.save((err)=>{
         if(err){ return new Error({message: 'Save failed'})}
 
-        return follower
+        return this.followers_count
     })
 }
 
+
+AuthorSchema.methods.followingUser = async function(user){
+    let isFollower
+    this.following.some((userId)=>{
+        if(userId.toString() === user.toString()){
+            isFollower = true
+        }else {
+            isFollower = false
+        }
+    })
+    return isFollower
+}
 
 
 
