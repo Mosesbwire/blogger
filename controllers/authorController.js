@@ -176,16 +176,28 @@ function uploadProfilePicture(req,res,file){
 }
 
 async function followUser(req,res,next){
+
+    if(req.params.id === req.user.id){
+        return res.status(401)
+        .json({message: 'the request cannot be completed. Users can only follow other users'})
+    }
     try {
         const user = await Author.findById(req.user.id)
         const followUser = await Author.findById(req.params.id)
-        
-        await user.follow(followUser)
-        await followUser.gainFollower(user)
 
-        // send notification to user who just got followed
-
-        res.status(200).json({message: 'ok'})
+        if(followUser){
+            user.followingUser(followUser._id).then(async (isFollowing) =>{
+                if(isFollowing){
+                    await user.unfollow(followUser._id)
+                    await followUser.loseFollower(user._id)
+                    return res.status(200).json({message: 'Unfollowed'})
+                }else{
+                    await user.follow(followUser._id)
+                    await followUser.gainFollower(user._id)
+                    return res.status(200).json({message: 'Followed'})
+                }
+            })
+        }    
     } catch (error) {
         next(error)
         console.log(error)
